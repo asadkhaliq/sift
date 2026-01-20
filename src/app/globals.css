@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Flexoki Light - Base colors */
+  --paper: #FFFCF0;
+  --bg: #F2F0E5;
+  --bg-2: #E6E4D9;
+  --ui: #DAD8CE;
+  --ui-2: #CECDC3;
+  --ui-3: #B7B5AC;
+  --tx-3: #6F6E69;
+  --tx-2: #878580;
+  --tx: #100F0F;
+
+  /* Flexoki Light - Accent colors */
+  --red: #AF3029;
+  --orange: #BC5215;
+  --yellow: #AD8301;
+  --green: #66800B;
+  --cyan: #24837B;
+  --blue: #205EA6;
+  --purple: #5E409D;
+  --magenta: #A02F6F;
+
+  /* Semantic mappings */
+  --background: var(--paper);
+  --foreground: var(--tx);
+  --surface: var(--bg);
+  --border: var(--ui);
+  --muted: var(--tx-2);
+  --accent: var(--blue);
+  --focus: var(--cyan);
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-ui: var(--ui);
+  --color-ui-2: var(--ui-2);
+  --color-ui-3: var(--ui-3);
+  --color-tx-3: var(--tx-3);
+  --color-tx-2: var(--tx-2);
+  --color-tx: var(--tx);
+
+  --color-red: var(--red);
+  --color-orange: var(--orange);
+  --color-yellow: var(--yellow);
+  --color-green: var(--green);
+  --color-cyan: var(--cyan);
+  --color-blue: var(--blue);
+  --color-purple: var(--purple);
+  --color-magenta: var(--magenta);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-focus: var(--focus);
+
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--cyan);
+  color: var(--paper);
 }
