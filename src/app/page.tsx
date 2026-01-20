@@ -7,7 +7,10 @@ import { QuickAdd } from "@/components/QuickAdd";
 import { KeyboardHelp } from "@/components/KeyboardHelp";
 import { createClient } from "@/lib/supabase/client";
 import { Todo, PaneId, PANES } from "@/lib/types";
+import type { Database } from "@/lib/supabase/types";
 import type { User } from "@supabase/supabase-js";
+
+type TodoRow = Database["public"]["Tables"]["todos"]["Row"];
 
 export default function Home() {
   const router = useRouter();
@@ -48,12 +51,13 @@ export default function Home() {
       const { data, error } = await supabase
         .from("todos")
         .select("*")
-        .order("position", { ascending: true });
+        .order("position", { ascending: true })
+        .returns<TodoRow[]>();
 
       if (error) {
         console.error("Error fetching todos:", error);
       } else if (data) {
-        setTodos(data.map(t => ({
+        setTodos(data.map((t) => ({
           id: t.id,
           content: t.content,
           pane: t.pane as PaneId,
@@ -92,20 +96,22 @@ export default function Home() {
       .select()
       .single();
 
+    const typedData = data as TodoRow | null;
+
     if (error) {
       console.error("Error adding todo:", error);
       return;
     }
 
-    if (data) {
+    if (typedData) {
       setTodos(prev => [...prev, {
-        id: data.id,
-        content: data.content,
-        pane: data.pane as PaneId,
-        position: data.position,
-        waitingFor: data.waiting_for || undefined,
-        createdAt: new Date(data.created_at),
-        completedAt: data.completed_at ? new Date(data.completed_at) : undefined,
+        id: typedData.id,
+        content: typedData.content,
+        pane: typedData.pane as PaneId,
+        position: typedData.position,
+        waitingFor: typedData.waiting_for || undefined,
+        createdAt: new Date(typedData.created_at),
+        completedAt: typedData.completed_at ? new Date(typedData.completed_at) : undefined,
       }]);
     }
   };
